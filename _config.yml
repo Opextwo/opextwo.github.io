@@ -3,4 +3,4 @@ defaults:
       path: ""
     values:
       http_headers:
-        Access-Control-Allow-Origin: "https://github.com"
+        Access-Control-Allow-Origin: "*"
