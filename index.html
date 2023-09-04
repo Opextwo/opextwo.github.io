@@ -87,7 +87,7 @@
             }
 
             function fetch_data() {
-                fetch('https://github.com/Opextwo/opextwo.github.io/blob/main/fees.csv').then(response => response.text())
+                fetch('https://raw.githubusercontent.com/opextwo/opextwo.github.io/main/fees.csv').then(response => response.text())
                 .then(text => {
                     calculate(text)
                 })
