@@ -22,7 +22,7 @@
             padding: 8px;
             background-color: #80cff1;
             height: auto;
-            width: 60%;
+            width: 40%;
         }
         .RO {
             font-family: Impact;
@@ -105,10 +105,23 @@
                 var TDP = cooked_data[return_index_value(TD) + TIER];
                 var GDP = cooked_data[return_index_value(GD) + TIER];
 
+                if ((TLC > 0) && (GCSE == 0)) {
+                    OUTPUT = cooked_data[return_index_value(TLC) + TIER];
+                    if (TMP) {
+                        OUTPUT = convert_to_TMP(OUTPUT).toFixed(0);
+                    }
+                    document.getElementById("OUTPUT").innerHTML = OUTPUT;
+                    return
+                }
+
                 if (TMP) {
                     TDP = convert_to_TMP(TDP);
                     GDP = convert_to_TMP(GDP);
                 }
+
+                //TESTING
+                console.log(TDP)
+                console.log()
 
                 var TP = TDP - GDP;
 
@@ -206,7 +219,7 @@
                 )">Calculate!</button>
             </div>
 
-            <p>Monthly Fee: </p>
+            <p>Fees for extra TLC days (not includingGCSE fees): </p>
             <p id="OUTPUT">£0</p>
         </div>
         
