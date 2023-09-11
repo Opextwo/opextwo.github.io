@@ -82,21 +82,23 @@
 
                 await fetch_csvs();
 
-                console.log(TLC_PRICES)
-                console.log(GCSE_PRICES)
+                calculate();
             }
 
             //calculate 
+            function calculate() {
                 //get a combind day count
+                let combined_days = TLC + GCSE;
                 //get both combind day and gcse prices using a function
                 //minus the gcse from the tlc
                 //send result to out put function
-            
+            }
+
             //out put function to keep stuff looking clean
 
             //error function to call if anything goes wrong 
-            function error(e) {
-                console.log("an error occurd whilst: " + e)
+            function error(location, endprogram) {
+                console.log("an error occurd whilst: " + location)
             }
 
             //price getter function 
