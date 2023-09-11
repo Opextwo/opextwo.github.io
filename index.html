@@ -60,12 +60,12 @@
             //create global variables
             let TLC,GCSE,TIER = 0;
             let TMP = false;
-            const TLC_URL = "";
-            const GCSE_URL = "";
-            let TLC_PRICES,GCSE_PRICES = [];
+            const TLC_URL = "https://raw.githubusercontent.com/Opextwo/opextwo.github.io/experimental/tlc_fees.csv";
+            const GCSE_URL = "https://raw.githubusercontent.com/Opextwo/opextwo.github.io/experimental/gcse_fees.csv";
+            let TLC_PRICES,GCSE_PRICES;
 
             //add user input to global variables
-            function start(tlc, gcse, t1, t2, t3, tmp) {
+            async function start(tlc, gcse, t1, t2, t3, tmp) {
                 TLC = tlc;
                 GCSSE = gcse;
                 TMP = tmp;
@@ -80,7 +80,10 @@
                     error("setting tier");
                 }
 
-                fetch_csv()
+                await fetch_csvs();
+
+                console.log(TLC_PRICES)
+                console.log(GCSE_PRICES)
             }
 
             //calculate 
@@ -99,15 +102,24 @@
             //price getter function 
             
             //fetch csv data for both TLC & GCSE function
-            async function fetch_csv(url, variable) {
+            async function fetch_csvs() {
                 try {
-                    const response = await fetch(url);
+                    const response = await fetch(TLC_URL);
                     if (!response.ok) throw new Error('Failed to fetch CSV data');
     
                     const csvData = await response.text();
-                    variable = csvData.split('\n').map(row => row.split(','));
+                    TLC_PRICES = csvData.split('\n').flatMap(row => row.split(',')).filter(value => value.trim() !== '');
                 } catch (error) {
-                    error("fetching csv for " + variable);
+                    error("fetching csv for TLC fees");
+                }
+                try {
+                    const response = await fetch(GCSE_URL);
+                    if (!response.ok) throw new Error('Failed to fetch CSV data');
+    
+                    const csvData = await response.text();
+                    GCSE_PRICES = csvData.split('\n').flatMap(row => row.split(',')).filter(value => value.trim() !== '');
+                } catch (error) {
+                    error("fetching csv for GCSE fees");
                 }
             }
         </script>
