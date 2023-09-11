@@ -57,121 +57,58 @@
         }
         </style>
         <script>
-            var TLC, GCSE, TIER = 0;
-            var TMP = false;
-            var OUTPUT;
-            function start(A, B, C, D, E, F, G) {
-                TLC = Number.parseFloat(A);
-                GCSE = Number.parseFloat(B);
-                TMP = F;
+            //create global variables
+            let TLC,GCSE,TIER = 0;
+            let TMP = false;
+            const TLC_URL = "";
+            const GCSE_URL = "";
+            let TLC_PRICES,GCSE_PRICES = [];
 
-                if (C) {
-                    TIER = 0;
-                } else if (D) {
+            //add user input to global variables
+            function start(tlc, gcse, t1, t2, t3, tmp) {
+                TLC = tlc;
+                GCSSE = gcse;
+                TMP = tmp;
+
+                if (t1) {
                     TIER = 1;
-                } else if (E) {
+                } else if (t2) {
                     TIER = 2;
+                } else if (t3) {
+                    TIER = 3;
                 } else {
-                    console.log("error");
+                    error("setting tier");
                 }
 
-                if (F) {
-                    TMP = false;
-                } else if (G) {
-                    TMP = true;
-                } else {
-                    console.log("error");
-                }
-
-                fetch_data();
+                fetch_csv()
             }
 
-            function fetch_data() {
-                fetch('https://raw.githubusercontent.com/opextwo/opextwo.github.io/main/fees.csv').then(response => response.text())
-                .then(text => {
-                    calculate(text)
-                })
-                .catch(error => {
-                    console.error(error);
-                    OUTPUT = "£ ERR"
-                });
+            //calculate 
+                //get a combind day count
+                //get both combind day and gcse prices using a function
+                //minus the gcse from the tlc
+                //send result to out put function
+            
+            //out put function to keep stuff looking clean
+
+            //error function to call if anything goes wrong 
+            function error(e) {
+                console.log("an error occurd whilst: " + e)
             }
 
-            function calculate(raw_data) {
-                const cooked_data = process_data(raw_data);
-
-                var GD = GCSE / 2;
-                var TD = TLC + GD;
-                var TDP = cooked_data[return_index_value(TD) + TIER];
-                var GDP = cooked_data[return_index_value(GD) + TIER];
-
-                if ((TLC > 0) && (GCSE == 0)) {
-                    OUTPUT = cooked_data[return_index_value(TLC) + TIER];
-                    if (TMP) {
-                        OUTPUT = convert_to_TMP(OUTPUT).toFixed(0);
-                    }
-                    document.getElementById("OUTPUT").innerHTML = OUTPUT;
-                    return
+            //price getter function 
+            
+            //fetch csv data for both TLC & GCSE function
+            async function fetch_csv(url, variable) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Failed to fetch CSV data');
+    
+                    const csvData = await response.text();
+                    variable = csvData.split('\n').map(row => row.split(','));
+                } catch (error) {
+                    error("fetching csv for " + variable);
                 }
-
-                if (TMP) {
-                    TDP = convert_to_TMP(TDP);
-                    GDP = convert_to_TMP(GDP);
-                }
-
-                var TP = TDP - GDP;
-
-                TP = TP.toFixed(0);
-
-                OUTPUT = "£" + TP;
-
-                if ((return_index_value(GD) > 23) || TP < 0) {
-                    OUTPUT = "£ ERR"
-                }
-                
-                document.getElementById("OUTPUT").innerHTML = OUTPUT;
-            }
-
-            function convert_to_TMP(num) {
-                return (num * 10) / 12;
-            }
-
-            function return_index_value(days) {
-                var i = 0;
-                switch (days) {
-                    case 0.5: 
-                        i = 0;
-                        break;
-                    case 1: 
-                        i = 3;
-                        break;
-                    case 1.5: 
-                        i = 6;
-                        break;
-                    case 2: 
-                        i = 9;
-                        break;
-                    case 2.5: 
-                        i = 12;
-                        break;
-                    case 3: 
-                        i = 15;
-                        break;
-                    case 3.5: 
-                        i = 18;
-                        break;
-                    case 4: 
-                        i = 21;
-                        break;
-                }
-
-                return i;
-            }
-
-            function process_data(input) {
-                var p = input.split(",");
-                const filteredArray = p.map(item => item.trim());
-                return filteredArray;
             }
         </script>
     </head>
@@ -209,8 +146,7 @@
                 Number.parseFloat(document.getElementById('GCSE_IN').value),
                 document.getElementById('T1_IN').checked, 
                 document.getElementById('T2_IN').checked, 
-                document.getElementById('T3_IN').checked, 
-                document.getElementById('TMP_F').checked,
+                document.getElementById('T3_IN').checked,
                 document.getElementById('TMP_T').checked
                 )">Calculate!</button>
             </div>
