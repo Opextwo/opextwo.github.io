@@ -101,6 +101,14 @@
                 let GCSE_days_fee = TLC_FEES[GCSE_days_skip_value + TIER];
                 let GCSE_fee = GCSE_FEES[GCSE_skip_value + TIER];
                 let combined_fee = TLC_FEES[total_days_skip_value + TIER];
+                
+                //tmp stuff
+                if (TMP) {
+                    tlc_fee = convert_tmp(tlc_fee);
+                    GCSE_days_fee = convert_tmp(GCSE_days_fee);
+                    GCSE_fee = convert_tmp(GCSE_fee);
+                    combined_fee = convert_tmp(combined_fee);
+                }
 
                 //minus the gcse from the tlc
                 let TLC_discounted_fee = combined_fee - GCSE_days_fee;
@@ -139,6 +147,11 @@
                 }
                 error("getting index", false);
             } 
+
+            function convert_tmp(value) {
+                let i = (value * 10) / 12;
+                return Math.round(i);
+            }
             
             //fetch csv data for both TLC & GCSE function
             async function fetch_csvs() {
