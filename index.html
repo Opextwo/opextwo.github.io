@@ -91,10 +91,10 @@
                 let combined_days = TLC + (GCSE / 2);
 
                 //get skip values from function
-                let TLC_skip_value = skip_index_getter(TLC, 0.5, 3, TLC_FEES.length, 0.5);
-                let GCSE_days_skip_value = skip_index_getter(GCSE / 2, 0.5, 3, TLC_FEES.length, 0.5);
-                let GCSE_skip_value = skip_index_getter(GCSE, 1, 3, GCSE_FEES.length, 1);
-                let total_days_skip_value = skip_index_getter(combined_days, 0.5, 3, TLC_FEES.length, 0.5)
+                let TLC_skip_value = skip_index_getter(TLC, 0.5, 3, TLC_FEES.length, 0);
+                let GCSE_days_skip_value = skip_index_getter(GCSE / 2, 0.5, 3, TLC_FEES.length, 0);
+                let GCSE_skip_value = skip_index_getter(GCSE, 1, 3, GCSE_FEES.length, 0);
+                let total_days_skip_value = skip_index_getter(combined_days, 0.5, 3, TLC_FEES.length, 0)
 
                 //get both combind day and gcse fees
                 let tlc_fee = TLC_FEES[TLC_skip_value + TIER];
@@ -137,7 +137,7 @@
                         i += input_increment
                     }
                 }
-                error("getting index", true);
+                error("getting index", false);
             } 
             
             //fetch csv data for both TLC & GCSE function
