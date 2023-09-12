@@ -66,10 +66,12 @@
 
             //add user input to global variables
             async function start(tlc, gcse, t1, t2, t3, tmp) {
+                //easy ones
                 TLC = tlc;
                 GCSE = gcse;
                 TMP = tmp;
 
+                //annoying ones
                 if (t1) {
                     TIER = 0;
                 } else if (t2) {
@@ -80,8 +82,10 @@
                     error("setting tier", true);
                 }
 
+                //get csv data
                 await fetch_csvs();
 
+                //run main program
                 calculate();
             }
 
@@ -96,7 +100,7 @@
                 let GCSE_skip_value = skip_index_getter(GCSE, 1, 3, GCSE_FEES.length, 0);
                 let total_days_skip_value = skip_index_getter(combined_days, 0.5, 3, TLC_FEES.length, 0)
 
-                //get both combind day and gcse fees
+                //get all fees
                 let tlc_fee = TLC_FEES[TLC_skip_value + TIER];
                 let GCSE_days_fee = TLC_FEES[GCSE_days_skip_value + TIER];
                 let GCSE_fee = GCSE_FEES[GCSE_skip_value + TIER];
@@ -104,15 +108,22 @@
                 
                 //tmp stuff
                 if (TMP) {
+                    //convet all stuff to tmp if needed
                     tlc_fee = convert_tmp(tlc_fee);
                     GCSE_days_fee = convert_tmp(GCSE_days_fee);
                     GCSE_fee = convert_tmp(GCSE_fee);
                     combined_fee = convert_tmp(combined_fee);
                 }
 
-                //minus the gcse from the tlc
+                //work out all output fees
                 let TLC_discounted_fee = combined_fee - GCSE_days_fee;
                 let total_fee = Number.parseInt(TLC_discounted_fee) + Number.parseInt(GCSE_fee);
+
+                //check if outputs are NaN
+                if (isNaN(TLC_discounted_fee) || isNaN(total_fee)) {
+                    //send fatal error
+                    error("unkown, likely input values too heigh", true)
+                }
 
                 //send result to out put function
                 output(TLC_discounted_fee, "TLC_OUTPUT")
@@ -136,20 +147,27 @@
 
             //skip value getter
             function skip_index_getter(input, input_increment, output_incremnt, heighest_val, start_val) {
+                //init vars
                 let output = 0;
                 let i = start_val;
+                //loop until right value found
                 for (;output < heighest_val; output += output_incremnt) {
+                    //check if correct
                     if (input === i) {
                         return output;
                     } else {
                         i += input_increment
                     }
                 }
+                //error thing
                 error("getting index", false);
             } 
 
+            //tmp converter function
             function convert_tmp(value) {
+                //do math
                 let i = (value * 10) / 12;
+                //round numbers and return
                 return Math.round(i);
             }
             
