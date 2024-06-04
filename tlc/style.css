@@ -32,7 +32,7 @@ body {
 #fees-version {
     margin-bottom: 5px;
     padding: 4px;
-    background-color: #7A7A7A;
+    background-color: #BDBDBD;
     border-style: solid;
     border-radius: 10px;
 }
@@ -47,7 +47,7 @@ body {
 
 .text-in input {
     width: 40px;
-    background-color: #7A7A7A;
+    background-color: #BDBDBD;
     border-style: solid;
     border-radius: 10px;
     padding: 4px;
@@ -60,7 +60,7 @@ body {
 }
 
 .radio-field {
-    background-color: #7A7A7A;
+    background-color: #BDBDBD;
     width: 50px;
     text-align: center;
     border-style: solid;
@@ -68,6 +68,15 @@ body {
     border-width: 2px;
     border-color: #E3E3E3;
     margin-left: 6px;
+}
+
+button {
+    background-color: #00BB07;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 4px;
+    text-align: center;
+    margin-bottom: 5px;
 }
 
 #output {
