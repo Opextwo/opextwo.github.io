@@ -1,20 +1,34 @@
 //create global variables
 let TLC, GCSE, TIER = 0;
 let TMP = false;
-let TLC_URL = "https://raw.githubusercontent.com/Opextwo/opextwo.github.io/main/tlc/tlc_fees_24-25.csv";
-const GCSE_URL = "https://raw.githubusercontent.com/Opextwo/opextwo.github.io/main/tlc/gcse_fees.csv";
 let TLC_FEES, GCSE_FEES;
 let fees_version;
+const FEES_TABLES = {
+    GCSE:{
+        23_24:[
+            0,0,0,132,144,156,252,276,300,360,384,408,468,492,516,564,588,612,648,672,696,720,744,768
+        ],
+        24_25:[
+            0,0,0,132,144,156,252,276,300,360,384,408,468,492,516,564,588,612,648,672,696,720,744,768
+        ]
+    },
+    TLC:{
+        23_24:[
+            0,0,0,99,106,111,197,211,221,278,299,312,348,375,389,428,461,481,485,524,545,543,588,610,591,635,663
+        ],
+        24_25:[
+            0,0,0,101,109,114,202,217,228,286,308,321,358,386,400,441,475,495,499,540,562,560,605,629,608,654,683
+        ]
+    }
+}
 
 //add user input to global variables
-async function start(tlc, gcse, t1, t2, t3, tmp, Fees_Version) {
+function start(tlc, gcse, t1, t2, t3, tmp, Fees_Version) {
     fees_version = Fees_Version;
     //easy ones
     TLC = tlc;
     GCSE = gcse;
     TMP = tmp;
-
-    TLC_URL = "https://raw.githubusercontent.com/Opextwo/opextwo.github.io/main/tlc/tlc_fees_" + fees_version + ".csv";
 
     //annoying ones
     if (t1) {
@@ -27,8 +41,8 @@ async function start(tlc, gcse, t1, t2, t3, tmp, Fees_Version) {
         error("setting tier", true);
     }
 
-    //get csv data
-    await fetch_csvs();
+    TLC_FEES = FEES_TABLES.TLC[fees_version]
+    GCSE_FEES = FEES_TABLES.GCSE[fees_version]
 
     //run main program
     calculate();
@@ -106,27 +120,6 @@ function convert_tmp(value) {
     return Math.round(i);
 }
 
-//fetch csv data for both TLC & GCSE function
-async function fetch_csvs() {
-    try {
-        const response = await fetch(TLC_URL);
-        if (!response.ok) throw new Error('Failed to fetch CSV data');
-
-        const csvData = await response.text();
-        TLC_FEES = csvData.split('\n').flatMap(row => row.split(',')).filter(value => value.trim() !== '');
-    } catch (error) {
-        error("fetching csv for TLC fees", true);
-    }
-    try {
-        const response = await fetch(GCSE_URL);
-        if (!response.ok) throw new Error('Failed to fetch CSV data');
-
-        const csvData = await response.text();
-        GCSE_FEES = csvData.split('\n').flatMap(row => row.split(',')).filter(value => value.trim() !== '');
-    } catch (error) {
-        error("fetching csv for GCSE fees", true);
-    }
-}
 
 //error function to call if anything goes wrong 
 function error(process, endprogram) {
