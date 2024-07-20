@@ -86,6 +86,7 @@ function calculate() {
 
     //send result to out put function
     output(TLC_discounted_fee, "TLC_OUTPUT")
+    output(GCSE_fee, "GCSE_OUTPUT")
     output(total_fee, "TOTAL_OUTPUT")
 }
 
@@ -126,6 +127,7 @@ function error(process, endprogram) {
     console.log("an error occurd whilst: " + process);
     if (endprogram) {
         output("ERROR", "TLC_OUTPUT");
+        output("ERROR", "GCSE_OUTPUT");
         output("ERROR", "TOTAL_OUTPUT");
         throw "critical error!"
     }

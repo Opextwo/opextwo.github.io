@@ -1,0 +1,31 @@
+body {
+    color: #a0a0a0;
+    background-color: #323232;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+a {
+    color: #a0a0a0;
+    text-decoration: underline;
+
+}
+
+p {
+    margin: 0px;
+}
+
+.current-site {
+    color: #000000;
+}
+
+.offset-one {
+    padding-left: 20px;
+}
+
+.offset-two {
+    padding-left: 40px;
+}
+
+.arrow {
+    font-size: large;
+}
